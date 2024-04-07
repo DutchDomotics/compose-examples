@@ -1,0 +1,20 @@
+---
+services:
+  # Nginx Proxy Manager
+  app:
+    image: jc21/nginx-proxy-manager:2.11.1
+    container_name: nginx_proxy_manager
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 81:81
+      - 443:443
+    environment:
+      DB_SQLITE_FILE: "/data/database.sqlite"
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+    healthcheck:
+      test: ["CMD", "/bin/check-health"]
+      interval: 10s
+      timeout: 3s
