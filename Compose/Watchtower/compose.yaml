@@ -1,0 +1,24 @@
+version: "3.8"
+services:
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower_container
+    restart: unless-stopped
+    environment:
+      # Following options are otrional START
+      - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_LABEL_ENABLE=true
+      - WATCHTOWER_INCLUDE_RESTARTING=true
+      - WATCHTOWER_ROLLING_RESTARTING=true
+      - WATCHTOWER_INTERVAL=1200
+      - WATCHTOWER_INCLUDE_STOPPED=true
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      # Watchtower add to auto update
+      - com.centurylinklabs.watchtower.enable=true
+networks: {}
